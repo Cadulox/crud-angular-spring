@@ -15,7 +15,6 @@ import { CoursesService } from '../services/courses.service';
 export class CoursesComponent {
   courses$: Observable<Course[]>;
   // courses: Course[] = [];
-  displayedColumns = ['_id', 'name', 'category', 'actions'];
 
   constructor(
     private coursesService: CoursesService,
