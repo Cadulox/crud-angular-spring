@@ -1,19 +1,18 @@
 @use "@angular/material" as mat;
 @include mat.core();
 
-$custom-app-primary: mat.define-palette(mat.$deep-purple-palette);
-$custom-app-accent: mat.define-palette(mat.$yellow-palette, A200, A400, 700);
+$custom-app-primary: mat.define-palette(mat.$blue-palette);
+$custom-app-accent: mat.define-palette(mat.$indigo-palette, A200, A400, 700);
 $custom-app-warn: mat.define-palette(mat.$red-palette);
 
-$custom-theme: mat.define-dark-theme(
+$custom-theme: mat.define-light-theme(
   (
     color: (
       primary: $custom-app-primary,
       accent: $custom-app-accent,
       warn: $custom-app-warn,
     ),
-    typography: mat.define-typography-config(),
-    density: 0,
+
   )
 );
 

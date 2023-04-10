@@ -1,29 +1,51 @@
 package com.cadulox.controller;
 
-import com.cadulox.model.Course;
-import com.cadulox.repository.CourseRepository;
-import lombok.AllArgsConstructor;
+import com.cadulox.dto.CourseDTO;
+import com.cadulox.service.CourseService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/courses")
-@AllArgsConstructor
 public class CourseController {
 
-    private final CourseRepository courseRepository;
+    private final CourseService courseService;
+
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @GetMapping
-    public List<Course> list() {
-        return courseRepository.findAll();
+    public @ResponseBody List<CourseDTO> list() {
+        return courseService.list();
+    }
+
+    @GetMapping("/{id}")
+    public CourseDTO findById(@PathVariable @NotNull @Positive Long id) {
+        return courseService.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Course> create(@RequestBody Course course) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(courseRepository.save(course));
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public CourseDTO create(@RequestBody @Valid @NotNull CourseDTO course) {
+        return courseService.create(course);
+    }
+
+    @PutMapping("/{id}")
+    public CourseDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull CourseDTO course) {
+        return courseService.update(id, course);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable @NotNull @Positive Long id) {
+        courseService.delete(id);
     }
 }

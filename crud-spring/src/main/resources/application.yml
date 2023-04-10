@@ -11,3 +11,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+server:
+  error:
+    include-stacktrace: never
+    include-message: never
