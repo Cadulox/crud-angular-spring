@@ -1,9 +1,13 @@
 package com.cadulox.dto.mapper;
 
 import com.cadulox.dto.CourseDTO;
+import com.cadulox.dto.LessonDTO;
 import com.cadulox.enums.Category;
 import com.cadulox.model.Course;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CourseMapper {
@@ -12,7 +16,12 @@ public class CourseMapper {
         if (course == null) {
             return null;
         }
-        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue());
+        List<LessonDTO> lessons = course.getLessons()
+                .stream()
+                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
+                .collect(Collectors.toList());
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue(),
+                lessons);
     }
 
     public Course toEntity(CourseDTO courseDTO) {
